@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Header(props) {
     return (
@@ -9,37 +10,48 @@ function Header(props) {
                 </div>
                 <ul className="nav navbar-nav navbar-right">
                     <li id="home">
-                        <a
-                            href="#"
+                        <Link
+                            to="/"
                             className="nav-item nav-link"
                             onClick={(e) => {
                                 props.tabClickHandler(e, "home");
                             }}
                         >
                             HOME
-                        </a>
+                        </Link>
                     </li>
                     <li id="compose">
-                        <a
-                            href="#compose"
+                        <Link
+                            to="/compose"
                             className="nav-item nav-link"
                             onClick={(e) => {
                                 props.tabClickHandler(e, "compose");
                             }}
                         >
                             COMPOSE
-                        </a>
+                        </Link>
                     </li>
                     <li id="about">
-                        <a
-                            href="#about"
+                        <Link
+                            to="/about"
                             className="nav-item nav-link"
                             onClick={(e) => {
                                 props.tabClickHandler(e, "about");
                             }}
                         >
                             ABOUT
-                        </a>
+                        </Link>
+                    </li>
+                    <li id="login">
+                        <Link
+                            to="/login"
+                            className="nav-item nav-link"
+                            onClick={(e) => {
+                                props.tabClickHandler(e, "login");
+                            }}
+                        >
+                            LOGIN
+                        </Link>
                     </li>
                 </ul>
             </div>

@@ -1,6 +1,7 @@
-const { json } = require("body-parser");
 const express = require("express");
 const router = express.Router();
+
+const { json } = require("body-parser");
 
 const BlogPost = require("../models/blogPost");
 

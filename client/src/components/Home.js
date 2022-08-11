@@ -17,7 +17,7 @@ function Home(props) {
             }
         >
             <div className="container">
-                <h2>Home</h2>
+                <h2>Hello, {props.user}</h2>
                 <p>
                     Lacus vel facilisis volutpat est velit egestas dui id
                     ornare. Semper auctor neque vitae tempus quam. Sit amet
@@ -47,7 +47,7 @@ function Home(props) {
                                             " ..."}
                                     </span>
                                     <a
-                                        href="#"
+                                        href="/"
                                         value={index}
                                         onClick={(event) => {
                                             handleClick(event, post);
