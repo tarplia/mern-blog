@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const api = axios.create({
-    // baseURL: "https://merndailyblog.herokuapp.com/",
-    baseURL: "http://localhost:8080/",
+    baseURL: "https://merndailyblog.herokuapp.com/",
+    // baseURL: "http://localhost:8080/",
 });
 
 async function loginUser(credentials) {
