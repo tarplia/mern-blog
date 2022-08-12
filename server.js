@@ -85,7 +85,7 @@ app.post("/api/save", authenticateToken, (req, res) => {
     });
 });
 
-app.get("/", authenticateToken, (req, res) => {
+app.get("/home", authenticateToken, (req, res) => {
     res.json({
         user: req.user,
     });
