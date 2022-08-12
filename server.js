@@ -9,8 +9,8 @@ const jwt = require('jsonwebtoken');
 // const key = require('./confg/keys').secretOrKey;
 
 const app = express();
-// const PORT = process.env.PORT || 8080;
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
+// const PORT = 8080;
 
 const routes = require("./routes/api");
 
