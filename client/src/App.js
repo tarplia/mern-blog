@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -10,182 +10,153 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 import Login from "./components/Login";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import "./App.css";
 
 const api = axios.create({
-    baseURL: "https://merndailyblog.herokuapp.com/",
+    // baseURL: "https://merndailyblog.herokuapp.com/",
+    baseURL: "http://localhost:8080/",
 });
 
-class App extends Component {
-    state = {
-        title: "",
-        content: "",
-        posts: [],
-        activeTab: "home",
-        token: "",
-        user: "",
-    };
+function App() {
+    const [post, setPost] = useState({});
+    const [posts, setPosts] = useState([]);
+    const [user, setUser] = useState("");
 
-    componentDidMount = () => {
-        this.getBlogPost();
-        if (window.location.hash === "#compose") {
-            this.setState({ activeTab: "compose" });
-        } else if (window.location.hash === "#about") {
-            this.setState({ activeTab: "about" });
-        }
-    };
+    const navigate = useNavigate();
 
-    getBlogPost = () => {
-        api.get("/api")
+    useEffect(() => {
+      const token = getToken();
+      fetchHome(token);
+    },[]);
+
+    const fetchBlogPost = (token) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        };
+        api.get("/api", config)
             .then((res) => {
                 const data = res.data;
-                this.setState({ posts: data });
-                // console.log("Data is retrieved!");
+                setPosts(data);
+                console.log("Data is retrieved!");
             })
             .catch(() => {
                 console.log("Data can't be retrieved!");
             });
     };
 
-    handleTabClick = (event, tabName) => {
-        if (tabName === "home") this.getBlogPost();
-
-        this.setState({ activeTab: tabName });
-    };
-
-    handleChange = (event) => {
+    const handleChange = (event) => {
         const { name, value } = event.target;
 
-        this.setState({
-            [name]: value,
-        });
+        setPost((prevPosts) => {
+          return {...prevPosts,
+              [name]: value,
+        }});
     };
 
-    submit = (event) => {
-        this.setState({ activeTab: "home" });
+    const getToken = () => {
+        const token = sessionStorage.getItem("token");
+        return token;
+    };
+
+    const submit = (event) => {
         event.preventDefault();
 
         const input = {
-            title: this.state.title,
-            content: this.state.content,
+            title: post.title,
+            content: post.content,
         };
 
-        api({
-            url: "/api/save",
-            method: "POST",
-            data: input,
-        })
+        const token = getToken();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        };
+
+        api.post("/api/save", input, config)
             .then(() => {
                 console.log("Data has been sent to the server.");
-                this.resetUserInput();
-                this.getBlogPost();
+                resetUserInput();
+                fetchHome(token);
+                navigate('/');
             })
             .catch(() => {
                 console.log("Internal server error");
             });
     };
 
-    resetUserInput = () => {
-        this.setState({
+    const resetUserInput = () => {
+        setPost({
             title: "",
             content: "",
         });
     };
 
-    readMoreClicked = () => {
-        this.setState({ isReadMoreClicked: true });
-    };
-
-    handleToken = (token) => {
+    const handleToken = (token) => {
         sessionStorage.setItem("token", token);
-        this.setState({ token: token });
     };
 
-    fetchDashboard = () => {
-        return fetch("http://localhost:8080/home", {
-            method: "GET",
+    const fetchHome = (token) => {
+        const config = {
             headers: {
-                Authorization: `Bearer ${this.state.token}`,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/x-www-form-urlencoded",
             },
-        })
-            .then((response) => {
-                return response.json();
+        };
+        api.get("/", config)
+            .then((res) => {
+                const data = res.data;
+                console.log("data: ", data);
+                setUser(data.user.username);
+                fetchBlogPost(token);
             })
-            .then((data) => {
-                console.log(data.user.username);
-                this.setState({ user: data.user.username });
+            .catch((err) => {
+                console.log(err);
             });
     };
 
-    render() {
-        return (
-            <div className="app">
-                {/* <button onClick={this.fetchDashboard}>Fetch Dashboard</button> */}
-                <Header tabClickHandler={this.handleTabClick} />
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Home
-                                activeTab={this.state.activeTab}
-                                posts={this.state.posts}
-                                user={this.state.user}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/compose"
-                        element={
-                            <Compose
-                                activeTab={this.state.activeTab}
-                                submit={this.submit}
-                                title={this.state.title}
-                                content={this.state.content}
-                                handleChange={this.handleChange}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <Login
-                                activeTab={this.state.activeTab}
-                                setToken={this.handleToken}
-                                fetchDashboard={this.fetchDashboard}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/about"
-                        element={<About activeTab={this.state.activeTab} />}
-                    />
-                </Routes>
-
-                {/* <Compose
-                    activeTab={this.state.activeTab}
-                    submit={this.submit}
-                    title={this.state.title}
-                    content={this.state.content}
-                    handleChange={this.handleChange}
+    return (
+        <div className="app">
+            <Header token={getToken()}/>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <Home posts={posts} user={user} />
+                    }
                 />
-                <Home
-                    activeTab={this.state.activeTab}
-                    posts={this.state.posts}
-                    user={this.state.user}
+                <Route
+                    path="/compose"
+                    element={
+                        <Compose
+                            submit={submit}
+                            title={post.title}
+                            content={post.content}
+                            handleChange={handleChange}
+                        />
+                    }
                 />
-                <About activeTab={this.state.activeTab} />
-                <Login
-                    activeTab={this.state.activeTab}
-                    setToken={this.handleToken}
-                    fetchDashboard={this.fetchDashboard}
-                /> */}
-                <Footer />
-            </div>
-        );
-    }
+                <Route
+                    path="/login"
+                    element={
+                        <Login
+                            handleToken={handleToken}
+                            fetchHome={fetchHome}
+                        />
+                    }
+                />
+                <Route path="/about" element={<About />} />
+            </Routes>
+            <Footer />
+        </div>
+    );
 }
 
 export default App;

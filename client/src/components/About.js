@@ -2,7 +2,7 @@ import React from 'react';
 
 function About(props) {
     return (
-        <div className={props.activeTab === 'about' ? 'about appear' : 'about hidden'}>
+        <div className="about">
             <div className="container">
                 <h2>Welcome to My MERN App</h2>
                 <p>This website let you write and view your blog posts. Use the "Compose" tab to write your post. Once published, you'll be directed to the "Home" page to view your posts. It is created using MERN stack (MongoDB, Express, React and Node). Here are some of the highlights:</p>

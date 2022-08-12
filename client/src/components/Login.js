@@ -1,21 +1,38 @@
 import React, { useState } from "react";
-import {
-    useNavigate,
-  } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const api = axios.create({
+    // baseURL: "https://merndailyblog.herokuapp.com/",
+    baseURL: "http://localhost:8080/",
+});
 
 async function loginUser(credentials) {
     const encodedUsername = encodeURIComponent(credentials.username);
     const encodedPassword = encodeURIComponent(credentials.password);
 
-    return fetch("http://localhost:8080/login", {
-        method: "POST",
+    const input = `username=${encodedUsername}&password=${encodedPassword}`;
+
+    const config = {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `username=${encodedUsername}&password=${encodedPassword}`,
+        }
+    }
+    return api.post("/login", input, config)
+    .then((res) => {
+        return res.data
     })
-    .then(response => response.json())
-    .catch(err => console.log(err))
+    .catch((err) => console.log(err));
+
+    // return fetch("http://localhost:8080/login", {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //     },
+    //     body: `username=${encodedUsername}&password=${encodedPassword}`,
+    // })
+    //     .then((response) => response.json())
+    //     .catch((err) => console.log(err));
 }
 
 function Login(props) {
@@ -30,21 +47,20 @@ function Login(props) {
             username,
             password,
         });
-        props.setToken(token);
-        navigate('/compose');
+
+        if (token !== undefined) {
+            props.handleToken(token);
+            props.fetchHome(token);
+            navigate("/");
+        }
     };
 
     return (
-        <div
-            className={
-                props.activeTab === "login"
-                    ? "compose-form appear"
-                    : "compose-form hidden"
-            }
-        >
-            <div className="container">
-                <form onSubmit={handleSubmit}>
-                    <div className="input-form">
+        <div className="auth-wrapper">
+            <div className="auth-inner">
+                <h3>Login</h3>
+                <form onSubmit={handleSubmit} autoComplete="off">
+                    <div className="mb-3">
                         <label htmlFor="username">Email</label>
                         <input
                             type="text"
@@ -53,13 +69,15 @@ function Login(props) {
                             className="form-control"
                         />
                     </div>
-                    <div className="input-form">
+                    <div className="mb-3">
                         <label htmlFor="password">Password</label>
                         <input
                             name="password"
                             onChange={(e) => setPassword(e.target.value)}
                             className="form-control"
                         />
+                    </div>
+                    <div className="d-grid">
                         <button>Login</button>
                     </div>
                 </form>

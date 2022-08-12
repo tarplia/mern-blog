@@ -1,7 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header(props) {
+    const isLoggedIn = !!props.token;
+    const navigate = useNavigate();
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        sessionStorage.clear();
+        navigate("/login");
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container bg-light">
@@ -9,50 +18,42 @@ function Header(props) {
                     <p className="navbar-brand">DAILY JOURNAL</p>
                 </div>
                 <ul className="nav navbar-nav navbar-right">
-                    <li id="home">
-                        <Link
-                            to="/"
-                            className="nav-item nav-link"
-                            onClick={(e) => {
-                                props.tabClickHandler(e, "home");
-                            }}
-                        >
-                            HOME
-                        </Link>
-                    </li>
-                    <li id="compose">
-                        <Link
-                            to="/compose"
-                            className="nav-item nav-link"
-                            onClick={(e) => {
-                                props.tabClickHandler(e, "compose");
-                            }}
-                        >
-                            COMPOSE
-                        </Link>
-                    </li>
+                    {isLoggedIn && (
+                        <li id="home">
+                            <Link to="/" className="nav-item nav-link">
+                                HOME
+                            </Link>
+                        </li>
+                    )}
+                    {isLoggedIn && (
+                        <li id="compose">
+                            <Link to="/compose" className="nav-item nav-link">
+                                COMPOSE
+                            </Link>
+                        </li>
+                    )}
                     <li id="about">
-                        <Link
-                            to="/about"
-                            className="nav-item nav-link"
-                            onClick={(e) => {
-                                props.tabClickHandler(e, "about");
-                            }}
-                        >
+                        <Link to="/about" className="nav-item nav-link">
                             ABOUT
                         </Link>
                     </li>
-                    <li id="login">
-                        <Link
-                            to="/login"
-                            className="nav-item nav-link"
-                            onClick={(e) => {
-                                props.tabClickHandler(e, "login");
-                            }}
-                        >
-                            LOGIN
-                        </Link>
-                    </li>
+                    {isLoggedIn ? (
+                        <li id="logout">
+                            <Link
+                                to="/logout"
+                                className="nav-item nav-link"
+                                onClick={handleLogout}
+                            >
+                                LOGOUT
+                            </Link>
+                        </li>
+                    ) : (
+                        <li id="login">
+                            <Link to="/login" className="nav-item nav-link">
+                                LOGIN
+                            </Link>
+                        </li>
+                    )}
                 </ul>
             </div>
         </nav>

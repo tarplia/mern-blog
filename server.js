@@ -38,6 +38,8 @@ app.use(morgan("tiny"));
 app.use("/api", routes);
 
 app.post("/login", (req, res) => {
+    // if (req.body.username === "ellie") res.sendStatus(401);
+
     const token = authentication({username: req.body.username});
     res.json(token);
 });
@@ -59,7 +61,7 @@ function authenticateToken(req, res, next) {
     })
   }
 
-app.get("/home", authenticateToken, (req, res) => {
+app.get("/", authenticateToken, (req, res) => {
     res.json({
         user: req.user
     });

@@ -2,13 +2,7 @@ import React from "react";
 
 function Compose(props) {
     return (
-        <div
-            className={
-                props.activeTab === "compose"
-                    ? "compose-form appear"
-                    : "compose-form hidden"
-            }
-        >
+        <div className="compose-form">
             <div className="container">
                 <h2>Compose</h2>
                 <form onSubmit={props.submit}>

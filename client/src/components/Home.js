@@ -11,13 +11,9 @@ function Home(props) {
     }
 
     return (
-        <div
-            className={
-                props.activeTab === "home" ? "home appear" : "home hidden"
-            }
-        >
+        <div className="home">
             <div className="container">
-                <h2>Hello, {props.user}</h2>
+                <h2 className="user-greeting">Hello {props.user}!</h2>
                 <p>
                     Lacus vel facilisis volutpat est velit egestas dui id
                     ornare. Semper auctor neque vitae tempus quam. Sit amet
@@ -43,7 +39,7 @@ function Home(props) {
                                     }
                                 >
                                     <span>
-                                        {post.content.substring(0, 100) +
+                                        {post.content?.substring(0, 100) +
                                             " ..."}
                                     </span>
                                     <a
