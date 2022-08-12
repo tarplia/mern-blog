@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const key = require('../confg/keys').secretOrKey;
+// const key = require('../confg/keys').secretOrKey;
 
 const { json } = require("body-parser");
 
@@ -14,7 +14,7 @@ function authenticateToken(req, res, next) {
   
     if (token == null) return res.sendStatus(401)
   
-    jwt.verify(token, key, (err, user) => {
+    jwt.verify(token, process.env.KEY, (err, user) => {
       console.log(err)
   
       if (err) return res.sendStatus(403)

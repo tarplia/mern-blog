@@ -6,7 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const authentication = require('./confg/authentication');
 const jwt = require('jsonwebtoken');
-const key = require('./confg/keys').secretOrKey;
+// const key = require('./confg/keys').secretOrKey;
 
 const app = express();
 // const PORT = process.env.PORT || 8080;
@@ -50,7 +50,7 @@ function authenticateToken(req, res, next) {
   
     if (token == null) return res.sendStatus(401)
   
-    jwt.verify(token, key, (err, user) => {
+    jwt.verify(token, process.env.KEY, (err, user) => {
       console.log(err)
   
       if (err) return res.sendStatus(403)
