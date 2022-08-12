@@ -6,7 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const authentication = require("./confg/authentication");
 const jwt = require("jsonwebtoken");
-const BlogPost = require("../models/blogPost");
+const BlogPost = require("./models/blogPost");
 // const key = require('./confg/keys').secretOrKey;
 
 const app = express();
