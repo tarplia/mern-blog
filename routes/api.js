@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-// const key = require('../confg/keys').secretOrKey;
 
 const { json } = require("body-parser");
 
@@ -25,14 +24,13 @@ function authenticateToken(req, res, next) {
       next()
     })
   }
-// Get
-router.get("/", authenticateToken, (req, res) => {
+
+  router.get("/", authenticateToken, (req, res) => {
     BlogPost.find({author: req.user.username}, (err, foundItems) => {
         res.send(foundItems);
     });
 });
 
-// Post route to save data to DB
 router.post("/save", authenticateToken, (req, res) => {
     const data = req.body;
     data.author = req.user.username;
