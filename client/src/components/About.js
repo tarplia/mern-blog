@@ -4,8 +4,10 @@ function About(props) {
     return (
         <div className="about">
             <div className="container">
-                <h2>Welcome to My MERN App</h2>
-                <p>This website let you write and view your blog posts. Use the "Compose" tab to write your post. Once published, you'll be directed to the "Home" page to view your posts. It is created using MERN stack (MongoDB, Express, React and Node). Here are some of the highlights:</p>
+                <h2>Welcome to My Blog Web App</h2>
+                <p>This app let you write and view your blog posts. First, sign-in into this app using the Login tab. Once logged in, use the "Compose" tab to write your post and see it published on the Home page.</p>
+                <h3>Tech stack:</h3>
+                <p>This app was created using MERN stack (MongoDB, Express, React and Node). Here are some of the highlights:</p>
                 <ul>
                     <li>React for client-side rendering, including building single-page app, componentizing the app, handling events.</li>
                     <li>MongoDB CRUD operations hosted in MongoDB Atlas.</li>

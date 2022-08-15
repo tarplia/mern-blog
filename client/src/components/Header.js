@@ -15,7 +15,7 @@ function Header(props) {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container bg-light">
                 <div className="navbar-header">
-                    <p className="navbar-brand">DAILY JOURNAL</p>
+                    <p className="navbar-brand">BLOG</p>
                 </div>
                 <ul className="nav navbar-nav navbar-right">
                     {isLoggedIn && (
