@@ -110,7 +110,7 @@ function App() {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         };
-        api.get("/", config)
+        api.get("/home", config)
             .then((res) => {
                 const data = res.data;
                 console.log("data: ", data);
