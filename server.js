@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const authentication = require("./confg/authentication");
 const jwt = require("jsonwebtoken");
 const BlogPost = require("./models/blogPost");
-// const key = require('./confg/keys').secretOrKey;
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -39,8 +38,6 @@ app.use(morgan("tiny"));
 // Routes
 
 app.post("/login", (req, res) => {
-    // if (req.body.username === "ellie") res.sendStatus(401);
-
     const token = authentication({ username: req.body.username });
     res.json(token);
 });
@@ -71,7 +68,6 @@ app.get("/api", authenticateToken, (req, res) => {
 app.post("/api/save", authenticateToken, (req, res) => {
     const data = req.body;
     data.author = req.user.username;
-    console.log(data);
 
     const newBlogPost = new BlogPost(data);
 

@@ -5,8 +5,14 @@ function About(props) {
         <div className="about">
             <div className="container">
                 <h2>Welcome to My Blog Web App</h2>
-                <p>This app let you write and view your blog posts. First, sign-in into this app using the Login tab. Once logged in, use the "Compose" tab to write your post and see it published on the Home page. Only the first 100 characters are displayed, so click on the "Read More" button to view the full post. Thanks for visiting and Happy exploring!</p>
-                <h3>Tech stack:</h3>
+                <p>This app let you write and view your blog posts. Thanks for visiting and Happy exploring!</p>
+                <h4>Get started:</h4>
+                <ul>
+                    <li>Sign-in using the Login tab with username and password of your choice.</li>
+                    <li>Once logged in, use the Compose tab to write your post and see it published in the Home page.</li>
+                    <li>Only the first 100 characters of each post are displayed, so click on the "Read More" button to view the full post.</li>
+                </ul>
+                <h4>Tech stack:</h4>
                 <p>This app was created using MERN stack (MongoDB, Express, React and Node). Here are some of the highlights:</p>
                 <ul>
                     <li>React for client-side rendering, including building single-page app, componentizing the app, handling events.</li>

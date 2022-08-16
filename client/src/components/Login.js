@@ -23,16 +23,6 @@ async function loginUser(credentials) {
         return res.data
     })
     .catch((err) => console.log(err));
-
-    // return fetch("http://localhost:8080/login", {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/x-www-form-urlencoded",
-    //     },
-    //     body: `username=${encodedUsername}&password=${encodedPassword}`,
-    // })
-    //     .then((response) => response.json())
-    //     .catch((err) => console.log(err));
 }
 
 function Login(props) {

@@ -103,6 +103,10 @@ function App() {
         sessionStorage.setItem("token", token);
     };
 
+    const handlePosts = () => {
+        setPosts([]);
+    }
+
     const fetchHome = (token) => {
         const config = {
             headers: {
@@ -124,12 +128,12 @@ function App() {
 
     return (
         <div className="app">
-            <Header token={getToken()}/>
+            <Header token={getToken()} handlePosts={handlePosts}/>
             <Routes>
                 <Route
                     path="/"
                     element={
-                        <Home posts={posts} user={user} />
+                        <Home posts={posts} user={user} token={getToken()}/>
                     }
                 />
                 <Route

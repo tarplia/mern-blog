@@ -8,6 +8,7 @@ function Header(props) {
     const handleLogout = (e) => {
         e.preventDefault();
         sessionStorage.clear();
+        props.handlePosts();
         navigate("/login");
     };
 
@@ -15,7 +16,9 @@ function Header(props) {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container bg-light">
                 <div className="navbar-header">
-                    <p className="navbar-brand">BLOG</p>
+                    <Link to="/" className="navbar-brand">
+                        BLOG
+                    </Link>
                 </div>
                 <ul className="nav navbar-nav navbar-right">
                     {isLoggedIn && (
@@ -32,11 +35,13 @@ function Header(props) {
                             </Link>
                         </li>
                     )}
-                    <li id="about">
-                        <Link to="/about" className="nav-item nav-link">
-                            ABOUT
-                        </Link>
-                    </li>
+                    {isLoggedIn && (
+                        <li id="about">
+                            <Link to="/about" className="nav-item nav-link">
+                                ABOUT
+                            </Link>
+                        </li>
+                    )}
                     {isLoggedIn ? (
                         <li id="logout">
                             <Link
